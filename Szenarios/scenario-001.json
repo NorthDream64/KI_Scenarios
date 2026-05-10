@@ -1,33 +1,33 @@
 {
   "id": "scenario-001",
-  "title": "",
-  "description": "",
+  "title": "Geheime Daten im Netz",
+  "description": "Potentiell DSGVO-relevante Daten über Firmen-PC im Netz",
   "tags": [],
-  "difficulty": "",
-  "estimated_minutes": 0,
+  "difficulty": "medium",
+  "estimated_minutes": 10,
 
   "steps": [
     {
       "id": "step-1",
       "step_number": 1,
-      "situation": "",
-      "player_prompt": "",
+      "situation": "Ein Mitarbeiter hat Beschwerdeschreiben eines Kunden 1:1 in sein persönliches, auf den Firmen-PC geladenes ChatGPT eingegeben. Sie werden durdh die Teamleiterin des Mitarbeiters darauf aufmerksam gemacht.",
+      "player_prompt": "Wie reagierst Du darauf?",
       "evaluation": {
         "categories": [
           {
             "label": "proaktiv",
-            "description": "",
-            "consequence": ""
+            "description": "Spieler handelt sofort: System stoppen, Untersuchung einleiten, Personalabteilung informieren",
+            "consequence": "Sie lassen das System sofort vom Netz nehmen und informieren den Vorstand noch am selben Tag. Das kostet politisches Kapital – intern gibt es Widerstand –, aber Sie gewinnen Zeit für eine sorgfältige Analyse."
           },
           {
             "label": "abwägend",
-            "description": "",
-            "consequence": ""
+            "description": "Spieler will erst mehr Informationen, prüft intern, erörtert den Fall mit dem betroffenen Mitarbeiter.",
+            "consequence": "Sie beauftragen eine interne Prüfung, ohne das System zu stoppen. Drei Tage später berichtet ein Journalist über den Fall – die Prüfung ist noch nicht abgeschlossen."
           },
           {
             "label": "defensiv",
-            "description": "",
-            "consequence": ""
+            "description": "Spieler relativiert, zweifelt am Whistleblower, schützt das System, hofft, dass der Fehler unbemerkt bleibt.",
+            "consequence": "Sie stufen die Meldung als unsubstanziiert ein. Zwei Wochen später reicht eine Verbraucherschutzorganisation Beschwerde bei der Aufsichtsbehörde ein."
           }
         ],
         "default_category": "abwägend"
@@ -36,11 +36,11 @@
     {
       "id": "step-2",
       "step_number": 2,
-      "situation": "",
-      "player_prompt": "",
+      "situation": "[WIRD DYNAMISCH EINGESETZT – Konsequenztext aus Step 1] \n\nDie Datenschutzbehörde kündigt eine Prüfung an und fordert die Dokumentation der KI-Entscheidungen der letzten 6 Monate. Du weißt nicht, ob diese Anfrage mit dem Vorfall in Zusammenhang steht oder Zufall ist.",
+      "player_prompt": "Wie gehst Du mit der bevorstehenden Behördenanfrage um?",
       "evaluation": {
         "categories": [
-          { "label": "proaktiv", "description": "", "consequence": "" },
+          { "label": "proaktiv", "description": "Vollständige Offenlegung, proaktive Kooperation, eigene Analyse vorlegen. Potenziell DSGVO-relevanten Vorfall mitteilen", "consequence": "Die Behörde würdigt Ihre Kooperationsbereitschaft. Die Prüfung wird konstruktiv." },
           { "label": "abwägend", "description": "", "consequence": "" },
           { "label": "defensiv", "description": "", "consequence": "" }
         ],
