@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KI-Szenarien</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0f1117;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 720px;
+      width: 100%;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header .tag {
+      display: inline-block;
+      background: #1e40af;
+      color: #93c5fd;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: #94a3b8;
+      font-size: 15px;
+    }
+
+    .progress-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+
+    .progress-step {
+      flex: 1;
+      height: 4px;
+      border-radius: 2px;
+      background: #1e293b;
+      transition: background 0.4s;
+    }
+
+    .progress-step.active { background: #3b82f6; }
+    .progress-step.done { background: #22c55e; }
+
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 20px;
+    }
+
+    .step-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .situation {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #cbd5e1;
+    }
+
+    .consequence-card {
+      background: #0f2a1a;
+      border: 1px solid #166534;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .consequence-card.show { display: block; }
+
+    .consequence-card .label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #4ade80;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+
+    .consequence-card p {
+      font-size: 15px;
+      line-height: 1.65;
+      color: #86efac;
+    }
+
+    .consequence-card.warn {
+      background: #2a1a0f;
+      border-color: #92400e;
+    }
+
+    .consequence-card.warn .label { color: #fb923c; }
+    .consequence-card.warn p { color: #fed7aa; }
+
+    .consequence-card.bad {
+      background: #1a0f0f;
+      border-color: #7f1d1d;
+    }
+
+    .consequence-card.bad .label { color: #f87171; }
+    .consequence-card.bad p { color: #fca5a5; }
+
+    .input-area {
+      margin-top: 24px;
+    }
+
+    .input-area label {
+      display: block;
+      font-size: 15px;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-bottom: 12px;
+    }
+
+    textarea {
+      width: 100%;
+      background: #0f1117;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      color: #e2e8f0;
+      font-family: inherit;
+      font-size: 15px;
+      line-height: 1.6;
+      padding: 14px 16px;
+      resize: vertical;
+      min-height: 100px;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    textarea:focus { border-color: #3b82f6; }
+    textarea::placeholder { color: #475569; }
+
+    .btn {
+      margin-top: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn:hover { background: #2563eb; }
+    .btn:active { transform: scale(0.98); }
+    .btn:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
+
+    .btn-secondary {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #94a3b8;
+    }
+
+    .btn-secondary:hover { background: #273548; }
+
+    .thinking {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      color: #64748b;
+      font-size: 14px;
+      margin-top: 12px;
+    }
+
+    .thinking.show { display: flex; }
+
+    .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #3b82f6;
+      animation: bounce 1.2s infinite;
+    }
+
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+      40% { transform: translateY(-6px); opacity: 1; }
+    }
+
+    .ending-card {
+      display: none;
+      text-align: center;
+      padding: 40px 32px;
+    }
+
+    .ending-card.show { display: block; }
+
+    .ending-icon { font-size: 48px; margin-bottom: 20px; }
+
+    .ending-card h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #f1f5f9;
+    }
+
+    .ending-card p {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #94a3b8;
+      margin-bottom: 24px;
+    }
+
+    .reflection {
+      background: #0f1117;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: left;
+      margin-top: 20px;
+    }
+
+    .reflection h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    .reflection p {
+      font-size: 14px;
+      color: #94a3b8;
+      margin: 0;
+    }
+
+    #start-screen { text-align: center; }
+
+    #start-screen .big-icon {
+      font-size: 56px;
+      margin-bottom: 24px;
+    }
+
+    .meta {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin: 20px 0 32px;
+    }
+
+    .meta span {
+      font-size: 13px;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- START SCREEN -->
+  <div id="start-screen">
+    <div class="header">
+      <div class="tag">KI-Governance · Szenario</div>
+      <div class="big-icon">🔒</div>
+      <h1>Geheime Daten im Netz</h1>
+      <p>Ein Mitarbeiter hat vertrauliche Kundendaten in ChatGPT eingegeben.<br>Wie reagieren Sie?</p>
+    </div>
+    <div class="meta">
+      <span>⏱ ca. 10 Minuten</span>
+      <span>📋 4 Entscheidungen</span>
+      <span>⚠️ Mittelschwer</span>
+    </div>
+    <button class="btn" onclick="startGame()">Szenario starten →</button>
+  </div>
+
+  <!-- GAME SCREEN -->
+  <div id="game-screen" style="display:none">
+    <div class="header">
+      <div class="tag" id="scenario-tag">KI-Governance · Szenario</div>
+      <h1 id="scenario-title">Geheime Daten im Netz</h1>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-step" id="p1"></div>
+      <div class="progress-step" id="p2"></div>
+      <div class="progress-step" id="p3"></div>
+      <div class="progress-step" id="p4"></div>
+    </div>
+
+    <div class="card" id="situation-card">
+      <div class="step-label" id="step-label">Schritt 1 von 4</div>
+      <div class="situation" id="situation-text"></div>
+
+      <div class="input-area" id="input-area">
+        <label id="player-prompt"></label>
+        <textarea id="player-input" placeholder="Schreiben Sie Ihre Antwort hier..."></textarea>
+        <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center">
+          <button class="btn" onclick="submitAnswer()" id="submit-btn">Antwort abschicken</button>
+          <div class="thinking" id="thinking-indicator">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            KI wertet Ihre Entscheidung aus...
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="consequence-card" id="consequence-card">
+      <div class="label">Was passiert als Nächstes</div>
+      <p id="consequence-text"></p>
+    </div>
+
+    <div style="text-align:right; display:none" id="next-btn-area">
+      <button class="btn" onclick="nextStep()">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ENDING SCREEN -->
+  <div id="ending-screen" style="display:none">
+    <div class="card ending-card show">
+      <div class="ending-icon" id="ending-icon"></div>
+      <h2 id="ending-title"></h2>
+      <p id="ending-text"></p>
+      <div class="reflection">
+        <h3>Reflexionsfrage</h3>
+        <p id="ending-reflection"></p>
+      </div>
+      <button class="btn" style="margin-top:24px" onclick="restart()">Nochmal spielen</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const scenario = {
+  title: "Geheime Daten im Netz",
+  steps: [
+    {
+      situation: "Ein Mitarbeiter hat Beschwerdeschreiben eines Kunden 1:1 in sein persönliches, auf den Firmen-PC geladenes ChatGPT eingegeben. Sie werden durch die Teamleiterin des Mitarbeiters darauf aufmerksam gemacht.",
+      player_prompt: "Wie reagieren Sie darauf?",
+      categories: [
+        {
+          label: "proaktiv",
+          consequence: "Sie informieren sofort den Datenschutzbeauftragten und die Personalabteilung, und sprechen direkt mit dem Mitarbeiter. Das Gespräch ist unangenehm – aber Sie haben die Kontrolle über die Situation.",
+          tone: "good"
+        },
+        {
+          label: "abwägend",
+          consequence: "Sie beauftragen eine interne Prüfung und warten ab. Drei Tage später berichtet ein Kollege, dass der Mitarbeiter weiterhin KI-Tools nutzt – die Prüfung ist noch nicht abgeschlossen.",
+          tone: "warn"
+        },
+        {
+          label: "defensiv",
+          consequence: "Sie stufen den Vorfall als Einzelfall ein und unternehmen nichts. Zwei Wochen später stellt die Datenschutzbehörde bei einer Routineprüfung Unregelmäßigkeiten fest.",
+          tone: "bad"
+        }
+      ]
+    },
+    {
+      situation: "Die Datenschutzbehörde kündigt eine Prüfung an und fordert die Dokumentation der KI-Nutzung der letzten 6 Monate. Sie wissen nicht, ob diese Anfrage mit dem Vorfall zusammenhängt oder Zufall ist.",
+      player_prompt: "Wie gehen Sie mit der bevorstehenden Behördenanfrage um?",
+      categories: [
+        {
+          label: "proaktiv",
+          consequence: "Sie legen vollständig offen und weisen proaktiv auf den Vorfall hin. Die Behörde würdigt die Kooperationsbereitschaft – die Prüfung verläuft konstruktiv.",
+          tone: "good"
+        },
+        {
+          label: "abwägend",
+          consequence: "Sie liefern die angeforderten Dokumente, ohne den Vorfall zu erwähnen. Die Behörde bemerkt Lücken und weitet die Prüfung aus.",
+          tone: "warn"
+        },
+        {
+          label: "defensiv",
+          consequence: "Sie geben so wenig wie möglich heraus und verweisen auf Geschäftsgeheimnisse. Die Behörde verhängt eine Zwangssanktion.",
+          tone: "bad"
+        }
+      ]
+    },
+    {
+      situation: "Intern werden Stimmen laut: Viele Mitarbeiter nutzen KI-Tools privat für Arbeitsaufgaben. Es gibt keine offizielle Richtlinie dazu. Die Geschäftsführung fragt Sie um Rat.",
+      player_prompt: "Was empfehlen Sie der Geschäftsführung?",
+      categories: [
+        {
+          label: "proaktiv",
+          consequence: "Sie entwerfen innerhalb von zwei Wochen eine klare KI-Nutzungsrichtlinie mit Schulungsangebot. Die Mitarbeiter reagieren überwiegend positiv auf die Klarheit.",
+          tone: "good"
+        },
+        {
+          label: "abwägend",
+          consequence: "Sie empfehlen, externe Berater hinzuzuziehen, und vertagen die Entscheidung. In der Zwischenzeit passiert ein weiterer Vorfall.",
+          tone: "warn"
+        },
+        {
+          label: "defensiv",
+          consequence: "Sie empfehlen ein generelles Verbot aller KI-Tools ohne Erklärung. Die Mitarbeiter umgehen das Verbot und nutzen die Tools heimlich weiter.",
+          tone: "bad"
+        }
+      ]
+    },
+    {
+      situation: "Ein Medienvertreter kontaktiert Ihre Pressestelle: Er habe Hinweise auf einen DSGVO-Verstoß in Ihrem Unternehmen und möchte eine Stellungnahme.",
+      player_prompt: "Wie reagiert Ihr Unternehmen auf die Presseanfrage?",
+      categories: [
+        {
+          label: "proaktiv",
+          consequence: "Sie reagieren transparent, bestätigen den Vorfall, schildern die bereits eingeleiteten Maßnahmen. Der Artikel erscheint, fällt aber deutlich milder aus als befürchtet.",
+          tone: "good"
+        },
+        {
+          label: "abwägend",
+          consequence: "Sie geben eine vage Stellungnahme ohne konkrete Aussagen. Der Journalist recherchiert weiter und findet weitere Details.",
+          tone: "warn"
+        },
+        {
+          label: "defensiv",
+          consequence: "Sie verweigern jede Stellungnahme. Der Artikel erscheint mit der Überschrift: 'Unternehmen schweigt zu Datenschutzskandal'.",
+          tone: "bad"
+        }
+      ]
+    }
+  ],
+  endings: {
+    positiv: {
+      icon: "✅",
+      title: "Vertrauensgewinn durch Verantwortung",
+      text: "Ihr Unternehmen hat den Vorfall professionell und transparent gemeistert. Der kurzfristige Aufwand hat sich gelohnt: Behörden, Mitarbeiter und Öffentlichkeit vertrauen Ihnen mehr als zuvor.",
+      reflection: "Welche Strukturen hätten den ursprünglichen Vorfall gar nicht erst entstehen lassen?"
+    },
+    mittel: {
+      icon: "⚠️",
+      title: "Schadensbegrenzung – knapp",
+      text: "Sie haben den schlimmsten Schaden abgewendet, aber an mehreren Stellen zögerlich gehandelt. Das Vertrauen ist angeschlagen, die Behörde hat das Unternehmen auf dem Radar.",
+      reflection: "An welchem Schritt hätte eine entschlossenere Entscheidung den Verlauf am stärksten verändert?"
+    },
+    negativ: {
+      icon: "❌",
+      title: "Kontrollverlust",
+      text: "Durch wiederholtes Zögern und Abwehren haben Sie die Initiative verloren. Das Unternehmen steht unter behördlicher Beobachtung, die Presse berichtet negativ, intern ist das Vertrauen erschüttert.",
+      reflection: "Was wäre der früheste Moment gewesen, an dem Sie anders hätten entscheiden können?"
+    }
+  }
+};
+
+let currentStep = 0;
+let scores = [];
+
+function startGame() {
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('game-screen').style.display = 'block';
+  showStep(0);
+}
+
+function showStep(index) {
+  currentStep = index;
+  const step = scenario.steps[index];
+
+  document.getElementById('step-label').textContent = `Schritt ${index + 1} von ${scenario.steps.length}`;
+  document.getElementById('situation-text').textContent = step.situation;
+  document.getElementById('player-prompt').textContent = step.player_prompt;
+  document.getElementById('player-input').value = '';
+
+  document.getElementById('consequence-card').classList.remove('show', 'good', 'warn', 'bad');
+  document.getElementById('next-btn-area').style.display = 'none';
+  document.getElementById('input-area').style.display = 'block';
+  document.getElementById('submit-btn').disabled = false;
+  document.getElementById('thinking-indicator').classList.remove('show');
+
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById(`p${i}`);
+    el.className = 'progress-step';
+    if (i - 1 < index) el.classList.add('done');
+    else if (i - 1 === index) el.classList.add('active');
+  }
+}
+
+function submitAnswer() {
+  const answer = document.getElementById('player-input').value.trim();
+  if (!answer) return;
+
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('thinking-indicator').classList.add('show');
+
+  setTimeout(() => {
+    const step = scenario.steps[currentStep];
+    const category = classifyAnswer(answer, step);
+    scores.push(category);
+
+    const catData = step.categories.find(c => c.label === category);
+
+    document.getElementById('thinking-indicator').classList.remove('show');
+
+    const card = document.getElementById('consequence-card');
+    card.classList.remove('good', 'warn', 'bad');
+    card.classList.add('show', catData.tone);
+    document.getElementById('consequence-text').textContent = catData.consequence;
+
+    document.getElementById('input-area').style.display = 'none';
+    document.getElementById('next-btn-area').style.display = 'block';
+  }, 1800);
+}
+
+function classifyAnswer(answer, step) {
+  const lower = answer.toLowerCase();
+  const proaktivWords = ['sofort', 'unmittelbar', 'direkt', 'datenschutz', 'melden', 'hr', 'personal', 'beauftragten', 'transparent', 'offen', 'richtlinie', 'schulung', 'maßnahme', 'informier', 'einleit'];
+  const defensivWords = ['abwarten', 'nichts', 'unwichtig', 'übertrieben', 'kein problem', 'ignorier', 'verbieten', 'verweiger', 'schweig', 'nein', 'nicht nötig'];
+
+  let proScore = proaktivWords.filter(w => lower.includes(w)).length;
+  let defScore = defensivWords.filter(w => lower.includes(w)).length;
+
+  if (proScore >= 2 || (proScore >= 1 && answer.length > 80)) return 'proaktiv';
+  if (defScore >= 1) return 'defensiv';
+  return 'abwägend';
+}
+
+function nextStep() {
+  if (currentStep + 1 < scenario.steps.length) {
+    showStep(currentStep + 1);
+  } else {
+    showEnding();
+  }
+}
+
+function showEnding() {
+  document.getElementById('game-screen').style.display = 'none';
+  document.getElementById('ending-screen').style.display = 'block';
+
+  const proCount = scores.filter(s => s === 'proaktiv').length;
+  const defCount = scores.filter(s => s === 'defensiv').length;
+
+  let ending;
+  if (proCount >= 2) ending = scenario.endings.positiv;
+  else if (defCount >= 2) ending = scenario.endings.negativ;
+  else ending = scenario.endings.mittel;
+
+  document.getElementById('ending-icon').textContent = ending.icon;
+  document.getElementById('ending-title').textContent = ending.title;
+  document.getElementById('ending-text').textContent = ending.text;
+  document.getElementById('ending-reflection').textContent = ending.reflection;
+}
+
+function restart() {
+  scores = [];
+  currentStep = 0;
+  document.getElementById('ending-screen').style.display = 'none';
+  document.getElementById('game-screen').style.display = 'none';
+  document.getElementById('start-screen').style.display = 'block';
+}
+</script>
+</body>
+</html>
