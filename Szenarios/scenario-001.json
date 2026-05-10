@@ -1,0 +1,111 @@
+{
+  "id": "scenario-001",
+  "title": "",
+  "description": "",
+  "tags": [],
+  "difficulty": "",
+  "estimated_minutes": 0,
+
+  "steps": [
+    {
+      "id": "step-1",
+      "step_number": 1,
+      "situation": "",
+      "player_prompt": "",
+      "evaluation": {
+        "categories": [
+          {
+            "label": "proaktiv",
+            "description": "",
+            "consequence": ""
+          },
+          {
+            "label": "abwägend",
+            "description": "",
+            "consequence": ""
+          },
+          {
+            "label": "defensiv",
+            "description": "",
+            "consequence": ""
+          }
+        ],
+        "default_category": "abwägend"
+      }
+    },
+    {
+      "id": "step-2",
+      "step_number": 2,
+      "situation": "",
+      "player_prompt": "",
+      "evaluation": {
+        "categories": [
+          { "label": "proaktiv", "description": "", "consequence": "" },
+          { "label": "abwägend", "description": "", "consequence": "" },
+          { "label": "defensiv", "description": "", "consequence": "" }
+        ],
+        "default_category": "abwägend"
+      }
+    },
+    {
+      "id": "step-3",
+      "step_number": 3,
+      "situation": "",
+      "player_prompt": "",
+      "evaluation": {
+        "categories": [
+          { "label": "proaktiv", "description": "", "consequence": "" },
+          { "label": "abwägend", "description": "", "consequence": "" },
+          { "label": "defensiv", "description": "", "consequence": "" }
+        ],
+        "default_category": "abwägend"
+      }
+    },
+    {
+      "id": "step-4",
+      "step_number": 4,
+      "situation": "",
+      "player_prompt": "",
+      "evaluation": {
+        "categories": [
+          { "label": "proaktiv", "description": "", "consequence": "" },
+          { "label": "abwägend", "description": "", "consequence": "" },
+          { "label": "defensiv", "description": "", "consequence": "" }
+        ],
+        "default_category": "abwägend"
+      }
+    }
+  ],
+
+  "endings": [
+    {
+      "id": "ending-positiv",
+      "trigger_pattern": "2+ proaktiv",
+      "title": "",
+      "text": "",
+      "reflection": {
+        "was_gut_lief": [],
+        "lernfrage": ""
+      }
+    },
+    {
+      "id": "ending-mittel",
+      "trigger_pattern": "gemischt",
+      "title": "",
+      "text": "",
+      "reflection": {
+        "lernfrage": ""
+      }
+    },
+    {
+      "id": "ending-negativ",
+      "trigger_pattern": "2+ defensiv",
+      "title": "",
+      "text": "",
+      "reflection": {
+        "was_schieflief": [],
+        "lernfrage": ""
+      }
+    }
+  ]
+}
