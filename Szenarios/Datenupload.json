@@ -10,7 +10,7 @@
     {
       "id": "step-1",
       "step_number": 1,
-      "situation": "Ein Mitarbeiter hat Beschwerdeschreiben eines Kunden 1:1 in sein persönliches, auf den Firmen-PC geladenes ChatGPT eingegeben. Sie werden durdh die Teamleiterin des Mitarbeiters darauf aufmerksam gemacht.",
+      "situation": "Ein Mitarbeiter hat das Beschwerdeschreiben eines Kunden 1:1 zusammen mit den allgemeinen Vertragsbedingungen und der Bestellgeschichte dieses Kunden in sein persönliches, auf den Firmen-PC geladenes ChatGPT eingegeben. Sie werden durdh die Teamleiterin des Mitarbeiters darauf aufmerksam gemacht.",
       "player_prompt": "Wie reagierst Du darauf?",
       "evaluation": {
         "categories": [
@@ -36,11 +36,11 @@
     {
       "id": "step-2",
       "step_number": 2,
-      "situation": "[WIRD DYNAMISCH EINGESETZT – Konsequenztext aus Step 1] \n\nDie Datenschutzbehörde kündigt eine Prüfung an und fordert die Dokumentation der KI-Entscheidungen der letzten 6 Monate. Du weißt nicht, ob diese Anfrage mit dem Vorfall in Zusammenhang steht oder Zufall ist.",
-      "player_prompt": "Wie gehst Du mit der bevorstehenden Behördenanfrage um?",
+      "situation": "[WIRD DYNAMISCH EINGESETZT – Konsequenztext aus Step 1] \n\nDer Datenschutzbeauftragte befürchtet, dass dies kein Einzelfall ist und regt bei der Geschäftsführung ein Inventar sämtlicher KI-Anwendungen im Unternehmen an sowie eine Dokumentation der KI-Entscheidungen der letzten 6 Monate. Die Geschäftsführung macht kurzfristig einen Termin mit Dir und möchte Deine Einschätzung zu diesem Vorschlag wissen.",
+      "player_prompt": "Wie gehst Du mit dem Vorschlag des DSB um?",
       "evaluation": {
         "categories": [
-          { "label": "proaktiv", "description": "Vollständige Offenlegung, proaktive Kooperation, eigene Analyse vorlegen. Potenziell DSGVO-relevanten Vorfall mitteilen", "consequence": "Die Behörde würdigt Ihre Kooperationsbereitschaft. Die Prüfung wird konstruktiv." },
+          { "label": "proaktiv", "description": "KI-Inventar ist ohnehin bereits in Arbeit, Logs über KI-Aktivitäten ebenfalls, normaler Teil Deiner Tätigkeit als KI-Manager bzw. KI-beauftragter.", "consequence": "Die Geschäftsführung möchte einen terminlichen Meilenstein, wann sowohl die Inventur als auch der Audit Log abgeschlossen bzw. operativ sein wird." },
           { "label": "abwägend", "description": "", "consequence": "" },
           { "label": "defensiv", "description": "", "consequence": "" }
         ],
@@ -50,7 +50,7 @@
     {
       "id": "step-3",
       "step_number": 3,
-      "situation": "",
+      "situation": "[WIRD DYNAMISCH EINGESETZT – Konsequenztext aus Step 2] \n\nDie Geschäftsführerin fragt Dich: "Und was ist mit dem Vorfall mit den Kundendaten? Was sind da Ihre konkreten nächsten Schritte?",
       "player_prompt": "",
       "evaluation": {
         "categories": [
